@@ -187,3 +187,34 @@ dir/
         other/
             file1.txt
     ```
+
+6. Do not overwrite existing files
+
+    ```
+    {
+        "extra": {
+            "copy-file": {
+                "dir/subdir/": "web/other/!"
+            }
+        }
+    }
+    ```
+    
+    Preset:
+    
+    ```
+    web/
+        other/
+            file1.txt - Recently modified
+            file2.txt - Existing File
+    ```
+    
+    Result:
+
+    ```
+    web/
+        other/
+            file1.txt - Not changed
+            file2.txt - Not changed
+    ```
+    

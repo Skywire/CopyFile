@@ -90,7 +90,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         $structure = array(
             'from' => array(
                 'file1' => 'Some content',
-                'file2' => 'Some content',
+                'file2' => 'Some content file 2',
             ),
             'to' => array(),
             'file3' => 'Some content',

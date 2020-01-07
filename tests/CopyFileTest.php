@@ -149,4 +149,27 @@ class CopyFileTest extends TestCase
         ScriptHandler::copy($this->getEventMock(null));
         ScriptHandler::copy($this->getEventMock('some string'));
     }
+
+    public function testNoOverwrite()
+    {
+        // Copy the file the first time
+        $this->assertFalse($this->root->hasChild('to/file1'));
+
+        ScriptHandler::copy($this->getEventMock([
+            vfsStream::url('root/from/file1') => vfsStream::url('root/to/file1') . '!'
+        ]));
+
+        $this->assertTrue($this->root->hasChild('to/file1'));
+
+
+        // Try to overwrite the file, but with the no overwrite flag
+        $currentSize = $this->root->getChild('to/file1')->size();
+        ScriptHandler::copy($this->getEventMock([
+            vfsStream::url('root/from/file2') => vfsStream::url('root/to/file1') . '!'
+        ]));
+
+        $newSize = $this->root->getChild('to/file1')->size();
+
+        $this->assertEquals($currentSize, $newSize);
+    }
 }

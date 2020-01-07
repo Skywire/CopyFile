@@ -1,5 +1,5 @@
 {
-    "name": "slowprog/composer-copy-file",
+    "name": "skywire/composer-copy-file",
     "description": "Composer script copying your files after install",
     "keywords": ["copy file"],
     "homepage": "https://github.com/SlowProg/composer-copy-file",
@@ -8,6 +8,10 @@
         {
             "name": "Andrey Tyshev",
             "email": "slowprog@gmail.com"
+        },
+        {
+            "name": "Skywire Tech Team",
+            "email": "tech@skywire.co.uk"
         }
     ],
     "require": {

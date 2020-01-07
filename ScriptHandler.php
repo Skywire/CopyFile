@@ -42,6 +42,14 @@ class ScriptHandler
             if (!$overwriteNewerFiles) {
                 $to = substr($to, 0, -1);
             }
+
+            $overwriteExistingFiles = substr($to, -1) != '!';
+            $to = rtrim($to, '!');
+            if (!$overwriteExistingFiles) {
+                if($fs->exists($to)) {
+                    continue;
+                }
+            }
             
             // Check the renaming of file for direct moving (file-to-file)
             $isRenameFile = substr($to, -1) != '/' && !is_dir($from);
