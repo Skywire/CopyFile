@@ -17,18 +17,22 @@ class ScriptHandler
         $extras = $event->getComposer()->getPackage()->getExtra();
         $extraField = $event->isDevMode() && isset($extras['copy-file-dev']) ? 'copy-file-dev' : 'copy-file';
 
+        $io = $event->getIO();
         if (!isset($extras[$extraField])) {
-            throw new \InvalidArgumentException('The dirs or files needs to be configured through the extra.copy-file setting.');
+            $io->write("No dirs or files are configured through the extra.{$extraField} setting.");
+
+            return;
         }
 
         $files = $extras[$extraField];
 
-        if ($files === array_values($files)) {
-            throw new \InvalidArgumentException('The extra.copy-file must be hash like "{<dir_or_file_from>: <dir_to>}".');
+        if (!is_array($files) || $files === array_values($files)) {
+            $io->write("The extra.{$extraField} must be hash like \"\{<dir_or_file_from>: <dir_to>\}\".");
+
+            return;
         }
 
         $fs = new Filesystem;
-        $io = $event->getIO();
 
         foreach ($files as $from => $to) {
             // check pattern
@@ -50,7 +54,7 @@ class ScriptHandler
                     continue;
                 }
             }
-            
+
             // Check the renaming of file for direct moving (file-to-file)
             $isRenameFile = substr($to, -1) != '/' && !is_dir($from);
 
